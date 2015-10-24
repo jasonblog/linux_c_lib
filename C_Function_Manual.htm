@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+	<title>Linux 常用C函數（中文版）</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="zh-cn" />
+			
+	<link type="text/css" href="css/style.css" rel="stylesheet" />
+	<link type="text/css" href="css/dark-hive/jquery-ui-1.8.7.custom.css" rel="stylesheet" />
+	<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.7.custom.min.js"></script>
+	
+	<script type="text/javascript" src="js/init-functions.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		var	stop = false;
+			
+		// accordion
+		$("#menu").accordion({ header: "h3", collapsible: true, autoHeight: false })
+		.sortable({
+				axis: "y",
+				handle: "h3",
+				stop: function() {
+					stop = true;
+				}
+		});
+		
+		initCFuncs();
+
+		// tabs
+		var $tabs = $( "#tabs").tabs({
+			tabTemplate: "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
+			add : function( event, ui ) {
+				var tab_content = func_html[ui.panel.id + "_html"];
+				$( ui.panel ).append( "<table>" + tab_content + "</table>" );
+			},
+
+			remove: function(event, ui) {
+				opened_tabs[ui.panel.id] = 'false';
+			}			
+		});		
+
+		// tab remove
+		$( "#tabs span.ui-icon-close" ).live( "click", function() {
+			var index = $( "li", $tabs ).index( $( this ).parent() );
+			$tabs.tabs( "remove", index );
+		});
+	});
+	</script>
+    </head>
+    <body>
+	<div id="header">
+		<p> C常用函數參考 0.1版 </p>
+	</div>	
+	<div id="menu">
+
+			<div>
+			<h3>
+				<a href="#">字元測試篇</a>
+			</h3>
+			<div>
+				<a href="#">isalnum</a><br>
+				<a href="#">isalpha</a><br>
+				<a href="#">isascii</a><br>
+				<a href="#">iscntrl</a><br>
+				<a href="#">isdigit</a><br>
+				<a href="#">isgraphis</a><br>
+				<a href="#">islower</a><br>
+				<a href="#">isprint</a><br>
+				<a href="#">isspace</a><br>
+				<a href="#">ispunct</a><br>
+				<a href="#">isupper</a><br>
+				<a href="#">isxdigit</a><br>
+			</div>
+			</div>
+
+			<div>
+			<h3>
+				<a href="#">字串轉換篇</a>
+			</h3>
+			<div>
+				<a href="#">atof</a><br>
+				<a href="#">atoi</a><br>
+				<a href="#">atol</a><br>
+				<a href="#">gcvt</a><br>
+				<a href="#">strtod</a><br>
+				<a href="#">strtol</a><br>
+				<a href="#">strtoul</a><br>
+				<a href="#">toascii</a><br>
+				<a href="#">tolower</a><br>
+				<a href="#">toupper</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">記憶體控制篇</a>
+			</h3>
+			<div>
+				<a href="#">calloc</a><br>
+				<a href="#">free</a><br>
+				<a href="#">getpagesize</a><br>
+				<a href="#">malloc</a><br>
+				<a href="#">mmap</a><br>
+				<a href="#">munmap</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">日期時間篇</a>
+			</h3>
+			<div>
+				<a href="#">asctime</a><br>
+				<a href="#">ctime</a><br>
+				<a href="#">gettimeofday</a><br>
+				<a href="#">gmtime</a><br>
+				<a href="#">localtime</a><br>
+				<a href="#">mktime</a><br>
+				<a href="#">settimeofday</a><br>
+				<a href="#">time</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">記憶體及字串操作篇</a>
+			</h3>
+			<div>
+				<a href="#">bcmp</a><br>
+				<a href="#">bcopy</a><br>
+				<a href="#">bzero</a><br>
+				<a href="#">index</a><br>
+				<a href="#">memccpy</a><br>
+				<a href="#">memchr</a><br>
+				<a href="#">memcmp</a><br>
+				<a href="#">memcpy</a><br>
+				<a href="#">memmove</a><br>
+				<a href="#">memset</a><br>
+				<a href="#">rindex</a><br>
+				<a href="#">strcasecmp</a><br>
+				<a href="#">strcat</a><br>
+				<a href="#">strchr</a><br>
+				<a href="#">strcmp</a><br>
+				<a href="#">strcoll</a><br>
+				<a href="#">strcpy</a><br>
+				<a href="#">strcspn</a><br>
+				<a href="#">strdup</a><br>
+				<a href="#">strlen</a><br>
+				<a href="#">strncasecmp</a><br>
+				<a href="#">strncat</a><br>
+				<a href="#">strncpy</a><br>
+				<a href="#">strpbrk</a><br>
+				<a href="#">strrchr</a><br>
+				<a href="#">strspn</a><br>
+				<a href="#">strstr</a><br>
+				<a href="#">strtok</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">常用數學函數篇</a>
+			</h3>
+			<div>
+				<a href="#">abs</a><br>
+				<a href="#">acos</a><br>
+				<a href="#">asin</a><br>
+				<a href="#">atan</a><br>
+				<a href="#">atan2</a><br>
+				<a href="#">ceil</a><br>
+				<a href="#">cos</a><br>
+				<a href="#">cosh</a><br>
+				<a href="#">exp</a><br>
+				<a href="#">frexp</a><br>
+				<a href="#">ldexp</a><br>
+				<a href="#">log</a><br>
+				<a href="#">log10</a><br>
+				<a href="#">pow</a><br>
+				<a href="#">sin</a><br>
+				<a href="#">sinh</a><br>
+				<a href="#">sqrt</a><br>
+				<a href="#">tan</a><br>
+				<a href="#">tanh</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">用戶組篇</a>
+			</h3>
+			<div>
+				<a href="#">endgrent</a><br>
+				<a href="#">endpwent</a><br>
+				<a href="#">endutent</a><br>
+				<a href="#">fgetgrent</a><br>
+				<a href="#">fgetpwent</a><br>
+				<a href="#">getegid</a><br>
+				<a href="#">geteuid</a><br>
+				<a href="#">getgid</a><br>
+				<a href="#">getgrent</a><br>
+				<a href="#">getgrgid</a><br>
+				<a href="#">getgrnam</a><br>
+				<a href="#">getgroups</a><br>
+				<a href="#">getpw</a><br>
+				<a href="#">getpwent</a><br>
+				<a href="#">getpwnam</a><br>
+				<a href="#">getpwuid</a><br>
+				<a href="#">getuid</a><br>
+				<a href="#">getutent</a><br>
+				<a href="#">getutid</a><br>
+				<a href="#">getutline</a><br>
+				<a href="#">initgroups</a><br>
+				<a href="#">pututline</a><br>
+				<a href="#">seteuid</a><br>
+				<a href="#">setfsgid</a><br>
+				<a href="#">setfsuid</a><br>
+				<a href="#">setgid</a><br>
+				<a href="#">setgrent</a><br>
+				<a href="#">setgroups</a><br>
+				<a href="#">setpwent</a><br>
+				<a href="#">setregid</a><br>
+				<a href="#">setreuid</a><br>
+				<a href="#">setuid</a><br>
+				<a href="#">setutent</a><br>
+				<a href="#">utmpname</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">資料結構及演算法篇</a>
+			</h3>
+			<div>
+				<a href="#">crypt</a><br>
+				<a href="#">bsearch</a><br>
+				<a href="#">lfind</a><br>
+				<a href="#">lsearch</a><br>
+				<a href="#">qsort</a><br>
+				<a href="#">rand</a><br>
+				<a href="#">srand</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">檔操作篇</a>
+			</h3>
+			<div>
+				<a href="#">close</a><br>
+				<a href="#">creat</a><br>
+				<a href="#">dup</a><br>
+				<a href="#">dup2</a><br>
+				<a href="#">fcntl</a><br>
+				<a href="#">flock</a><br>
+				<a href="#">fsync</a><br>
+				<a href="#">lseek</a><br>
+				<a href="#">mkstemp</a><br>
+				<a href="#">open</a><br>
+				<a href="#">read</a><br>
+				<a href="#">sync</a><br>
+				<a href="#">write</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">檔內容操作篇</a>
+			</h3>
+			<div>
+				<a href="#">clearerr</a><br>
+				<a href="#">fclose</a><br>
+				<a href="#">fdopen</a><br>
+				<a href="#">feof</a><br>
+				<a href="#">fflush</a><br>
+				<a href="#">fgetc</a><br>
+				<a href="#">fgets</a><br>
+				<a href="#">fileno</a><br>
+				<a href="#">fopen</a><br>
+				<a href="#">fputc</a><br>
+				<a href="#">fputs</a><br>
+				<a href="#">fread</a><br>
+				<a href="#">freopen</a><br>
+				<a href="#">fseek</a><br>
+				<a href="#">ftell</a><br>
+				<a href="#">fwrite</a><br>
+				<a href="#">getc</a><br>
+				<a href="#">getchar</a><br>
+				<a href="#">gets</a><br>
+				<a href="#">mktemp</a><br>
+				<a href="#">putc</a><br>
+				<a href="#">putchar</a><br>
+				<a href="#">rewind</a><br>
+				<a href="#">setbuf</a><br>
+				<a href="#">setbuffer</a><br>
+				<a href="#">setlinebuf</a><br>
+				<a href="#">setvbuf</a><br>
+				<a href="#">ungetc</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">進程操作篇</a>
+			</h3>
+			<div>
+				<a href="#">atexit</a><br>
+				<a href="#">execl</a><br>
+				<a href="#">execlp</a><br>
+				<a href="#">execv</a><br>
+				<a href="#">execve</a><br>
+				<a href="#">execvp</a><br>
+				<a href="#">exit</a><br>
+				<a href="#">_exit</a><br>
+				<a href="#">vfork</a><br>
+				<a href="#">getpgid</a><br>
+				<a href="#">getpgrp</a><br>
+				<a href="#">getpid</a><br>
+				<a href="#">getppid</a><br>
+				<a href="#">getpriority</a><br>
+				<a href="#">nice</a><br>
+				<a href="#">on_exit</a><br>
+				<a href="#">setpgid</a><br>
+				<a href="#">setpgrp</a><br>
+				<a href="#">setpriority</a><br>
+				<a href="#">system</a><br>
+				<a href="#">wait</a><br>
+				<a href="#">waitpid</a><br>
+				<a href="#">fprintf</a><br>
+				<a href="#">fscanf</a><br>
+				<a href="#">printf</a><br>
+				<a href="#">sacnf</a><br>
+				<a href="#">sprintf</a><br>
+				<a href="#">sscanf</a><br>
+				<a href="#">vfprintf</a><br>
+				<a href="#">vfscanf</a><br>
+				<a href="#">vprintf</a><br>
+				<a href="#">vscanf</a><br>
+				<a href="#">vsprintf</a><br>
+				<a href="#">vsscanf</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">文件許可權控制篇</a>
+			</h3>
+			<div>
+				<a href="#">access</a><br>
+				<a href="#">alphasort</a><br>
+				<a href="#">chdir</a><br>
+				<a href="#">chmod</a><br>
+				<a href="#">chown</a><br>
+				<a href="#">chroot</a><br>
+				<a href="#">closedir</a><br>
+				<a href="#">fchdir</a><br>
+				<a href="#">fchmod</a><br>
+				<a href="#">fchown</a><br>
+				<a href="#">fstat</a><br>
+				<a href="#">ftruncate</a><br>
+				<a href="#">getcwd</a><br>
+				<a href="#">link</a><br>
+				<a href="#">lstat</a><br>
+				<a href="#">opendir</a><br>
+				<a href="#">readdir</a><br>
+				<a href="#">readlink</a><br>
+				<a href="#">remove</a><br>
+				<a href="#">rename</a><br>
+				<a href="#">rewinddir</a><br>
+				<a href="#">seekdir</a><br>
+				<a href="#">stat</a><br>
+				<a href="#">symlink</a><br>
+				<a href="#">telldir</a><br>
+				<a href="#">truncate</a><br>
+				<a href="#">umask</a><br>
+				<a href="#">unlink</a><br>
+				<a href="#">utime</a><br>
+				<a href="#">utimes</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">信號處理篇</a>
+			</h3>
+			<div>
+				<a href="#">alarm</a><br>
+				<a href="#">kill</a><br>
+				<a href="#">pause</a><br>
+				<a href="#">sigaction</a><br>
+				<a href="#">sigaddset</a><br>
+				<a href="#">sigdelset</a><br>
+				<a href="#">sigemptyset</a><br>
+				<a href="#">sigfillset</a><br>
+				<a href="#">sigismember</a><br>
+				<a href="#">signal</a><br>
+				<a href="#">sigpending</a><br>
+				<a href="#">sigprocmask</a><br>
+				<a href="#">sleep</a><br>
+				<a href="#">ferror</a><br>
+				<a href="#">perror</a><br>
+				<a href="#">strerror</a><br>
+				<a href="#">mkfifo</a><br>
+				<a href="#">pclose</a><br>
+				<a href="#">pipe</a><br>
+				<a href="#">popen</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">介面處理篇</a>
+			</h3>
+			<div>
+				<a href="#">accept</a><br>
+				<a href="#">bind</a><br>
+				<a href="#">connect</a><br>
+				<a href="#">endprotoent</a><br>
+				<a href="#">endservent</a><br>
+				<a href="#">getsockopt</a><br>
+				<a href="#">htonl</a><br>
+				<a href="#">htons</a><br>
+				<a href="#">inet_addr</a><br>
+				<a href="#">inet_aton</a><br>
+				<a href="#">inet_ntoa</a><br>
+				<a href="#">listen</a><br>
+				<a href="#">ntohl</a><br>
+				<a href="#">ntohs</a><br>
+				<a href="#">recv</a><br>
+				<a href="#">recvfrom</a><br>
+				<a href="#">recvmsg</a><br>
+				<a href="#">send</a><br>
+				<a href="#">sendmsg</a><br>
+				<a href="#">sendto</a><br>
+				<a href="#">setprotoent</a><br>
+				<a href="#">setservent</a><br>
+				<a href="#">setsockopt</a><br>
+				<a href="#">shutdown</a><br>
+				<a href="#">socket</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">環境變數篇</a>
+			</h3>
+			<div>
+				<a href="#">getenv</a><br>
+				<a href="#">putenv</a><br>
+				<a href="#">setenv</a><br>
+			</div>
+		</div>
+		<div>
+			<h3>
+				<a href="#">終端控制篇</a>
+			</h3>
+			<div>
+				<a href="#">getopt</a><br>
+				<a href="#">isatty</a><br>
+				<a href="#">select</a><br>
+				<a href="#">ttyname</a><br>
+			</div>
+		</div>
+	
+	</div>	
+
+	<div id="main">
+	<div id="tabs"> 
+		<ul> 
+			<li><a href="#tabs-start">Start</a></li> 
+		</ul> 
+		<div id="tabs-start"> 
+			<p>此處待添加一些共通功能，搜索功能，查找功能之類的
+			..............................................</p> 
+		</div> 
+	</div> 	
+	</div>	
+    </body>
+</html>
